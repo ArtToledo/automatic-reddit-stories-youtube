@@ -13,9 +13,7 @@ const getTitlePost = async (linkPost: string): Promise<string> => {
 }
 
 const getAnswersInThePost = async (linkPost: string, quantitiesResponse: number): Promise<string[]> => {
-  const browser = await puppeteer.launch({
-    headless: false
-  })
+  const browser = await puppeteer.launch()
   const page = await browser.newPage()
 
   await page.goto(linkPost)

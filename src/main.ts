@@ -1,3 +1,4 @@
+import { generateImageTitle } from './image-processor'
 import { getInformationsReddit } from './prompt-interaction'
 import { 
   getTitlePost,
@@ -12,6 +13,8 @@ const startSystem = async () => {
 
   const titlePost = await getTitlePost(linkPostReddit)
   const answersInThePost = await getAnswersInThePost(linkPostReddit, quantitiesResponse)
+
+  await generateImageTitle(titlePost)
 }
 
 startSystem()
