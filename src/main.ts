@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 import { generateImagesAnswers, generateImageTitle } from './image-processor'
 import { getInformationsReddit } from './prompt-interaction'
 import { 
@@ -18,3 +20,4 @@ const startSystem = async () => {
 }
 
 startSystem()
+

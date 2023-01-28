@@ -18,7 +18,7 @@ const generateImageTitle = async (title: string): Promise<string> => {
   deleteFolderTemp()
 
   image.print(fontJimp, positionX, positionY, title, breakTextFrom)
-  const pathSaveImage = resolve(__dirname, '..', 'images', 'temp', 'tile.png')
+  const pathSaveImage = resolve(__dirname, '..', '..', 'assets', 'temp', 'tile.png')
   await image.writeAsync(pathSaveImage)
 
   return pathSaveImage
@@ -39,7 +39,7 @@ const generateImagesAnswers = async (answers: string[]): Promise<string[]> => {
     const image = await Jimp.read(imagePath)
 
     image.print(fontJimp, positionX, positionY, answer, breakTextFrom)
-    const pathSaveImage = resolve(__dirname, '..', 'images', 'temp', `answer${pathOfGeneratedImages.length}.png`)
+    const pathSaveImage = resolve(__dirname, '..', '..', 'assets', 'temp', `answer${pathOfGeneratedImages.length}.png`)
     
     await image.writeAsync(pathSaveImage)
     pathOfGeneratedImages.push(pathSaveImage)
@@ -52,7 +52,7 @@ const definePositionTitleAndFontSize = (title: string): DefinitionInformationsGe
   const lengthTitle = title.length
   const positionX = 114
   let font = 'arial-42.fnt'
-  let imagePath = resolve(__dirname, '..', 'images', 'overlay-smaller.png')
+  let imagePath = resolve(__dirname, '..', '..', 'assets', 'overlay-smaller.png')
   let positionY = null
   let breakTextFrom = 820
   
@@ -66,56 +66,56 @@ const definePositionTitleAndFontSize = (title: string): DefinitionInformationsGe
 
   if (lengthTitle > 136 && lengthTitle <= 173) {
     positionY = 800
-    imagePath = resolve(__dirname, '..', 'images', 'overlay-medium.png')
+    imagePath = resolve(__dirname, '..', '..', 'assets', 'overlay-medium.png')
   }
 
   if (lengthTitle > 173 && lengthTitle <= 199) {
     positionY = 760
-    imagePath = resolve(__dirname, '..', 'images', 'overlay-medium.png')
+    imagePath = resolve(__dirname, '..', '..', 'assets', 'overlay-medium.png')
   }
 
   if (lengthTitle > 200 && lengthTitle <= 225) {
     positionY = 740
-    imagePath = resolve(__dirname, '..', 'images', 'overlay-medium.png')
+    imagePath = resolve(__dirname, '..', '..', 'assets', 'overlay-medium.png')
   }
 
   if (lengthTitle > 225 && lengthTitle <= 258) {
     positionY = 720
     font = 'arial-38.fnt'
-    imagePath = resolve(__dirname, '..', 'images', 'overlay-big.png')
+    imagePath = resolve(__dirname, '..', '..', 'assets', 'overlay-big.png')
   }
 
   if (lengthTitle > 258 && lengthTitle <= 285) {
     positionY = 700
     font = 'arial-38.fnt'
-    imagePath = resolve(__dirname, '..', 'images', 'overlay-big.png')
+    imagePath = resolve(__dirname, '..', '..', 'assets', 'overlay-big.png')
   }
 
   if (lengthTitle > 285 && lengthTitle <= 319) {
     positionY = 760
     font = 'arial-36.fnt'
-    imagePath = resolve(__dirname, '..', 'images', 'overlay-big.png')
+    imagePath = resolve(__dirname, '..', '..', 'assets', 'overlay-big.png')
     breakTextFrom = 840
   }
 
   if (lengthTitle > 319 && lengthTitle <= 365) {
     positionY = 750
     font = 'arial-36.fnt'
-    imagePath = resolve(__dirname, '..', 'images', 'overlay-big.png')
+    imagePath = resolve(__dirname, '..', '..', 'assets', 'overlay-big.png')
     breakTextFrom = 840
   }
 
   if (lengthTitle > 365 && lengthTitle <= 412) {
     positionY = 740
     font = 'arial-36.fnt'
-    imagePath = resolve(__dirname, '..', 'images', 'overlay-big.png')
+    imagePath = resolve(__dirname, '..', '..', 'assets', 'overlay-big.png')
     breakTextFrom = 840
   }
 
   if (lengthTitle > 413) {
     positionY = 730
     font = 'arial-36.fnt'
-    imagePath = resolve(__dirname, '..', 'images', 'overlay-big.png')
+    imagePath = resolve(__dirname, '..', '..', 'assets', 'overlay-big.png')
     breakTextFrom = 840
   }
 
@@ -129,7 +129,7 @@ const definePositionTitleAndFontSize = (title: string): DefinitionInformationsGe
 }
 
 const deleteFolderTemp = () => {
-  fs.rmSync(resolve(__dirname, '..', 'images', 'temp'), { recursive: true, force: true })
+  fs.rmSync(resolve(__dirname, '..', '..', 'assets', 'temp'), { recursive: true, force: true })
 }
 
 export {
