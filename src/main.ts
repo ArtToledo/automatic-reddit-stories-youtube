@@ -1,6 +1,7 @@
 require('dotenv').config()
+import fs from 'fs'
+import { resolve } from 'path'
 
-import { generateImagesAnswers, generateImageTitle } from './image-processor'
 import { getInformationsReddit } from './prompt-interaction'
 import { 
   getTitlePost,
@@ -8,15 +9,19 @@ import {
 } from './webscraper'
 
 const startSystem = async () => {
+  //Remove old files
+  const folderImagesTemp = resolve(__dirname, '..', 'assets', 'temp')
+  !fs.existsSync(folderImagesTemp)
+    ? fs.mkdirSync(folderImagesTemp)
+    : fs.rmSync(folderImagesTemp, { recursive: true, force: true })
+
   const {
     linkPostReddit,
     quantitiesResponse
   } = await getInformationsReddit()
 
-  const titlePost = await getTitlePost(linkPostReddit)
+  const { pathImageTitle, titlePost } = await getTitlePost(linkPostReddit)
   const answersInThePost = await getAnswersInThePost(linkPostReddit, quantitiesResponse)
-  const pathImageTitle = await generateImageTitle(titlePost)
-  const pathImagesAnswers = await generateImagesAnswers(answersInThePost)
 }
 
 startSystem()
