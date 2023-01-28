@@ -11,12 +11,12 @@ const getTitlePost = async (linkPost: string): Promise<InformationsTitleInterfac
   const browser = await puppeteer.launch()
   const page = await browser.newPage()
 
-  await page.goto(linkPost, { waitUntil: "networkidle2" })
+  await page.goto(linkPost, { waitUntil: 'networkidle2' })
   await page.waitForSelector('[data-adclicklocation="title"]')
 
   const titlePost = await page.evaluate(el => el.innerHTML, await page.$('[data-adclicklocation="title"] h1'))
   const divTitle = await page.$('[data-test-id="post-content"]')
-  const pathImageTitle = resolve(__dirname, '..', '..', 'assets', 'temp', 'title.png')
+  const pathImageTitle = resolve(__dirname, '..', '..', 'assets', 'temp', 'image0.png')
   
   await divTitle.screenshot({ path: pathImageTitle })
   await browser.close()
@@ -32,7 +32,7 @@ const getAnswersInThePost = async (linkPost: string, quantitiesResponse: number)
   const page = await browser.newPage()
 
   await page.goto(linkPost, { waitUntil: 'networkidle2' })
-  await page.waitForSelector('._3tw__eCCe7j-epNCKGXUKk');
+  await page.waitForSelector('._3tw__eCCe7j-epNCKGXUKk')
 
   const postAnswers = await page.evaluate((quantitiesResponse) => {
     //@ts-ignore
@@ -72,7 +72,7 @@ const getAnswersInThePost = async (linkPost: string, quantitiesResponse: number)
 
   let answersInThePost: AnswerInThePost[] = []
   for (const [index, value] of answersInformations.entries()) {
-    const pathImage = resolve(__dirname, '..', '..', 'assets', 'temp', `answer${index}.png`)
+    const pathImage = resolve(__dirname, '..', '..', 'assets', 'temp', `image${index + 1}.png`)
     const {
       x,
       y,

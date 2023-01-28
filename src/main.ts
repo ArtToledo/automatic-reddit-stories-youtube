@@ -3,6 +3,7 @@ import fs from 'fs'
 import { resolve } from 'path'
 
 import { getInformationsReddit } from './prompt-interaction'
+import { generateVoiceFiles } from './voice-processor'
 import { 
   getTitlePost,
   getAnswersInThePost
@@ -11,9 +12,12 @@ import {
 const startSystem = async () => {
   //Remove old files
   const folderImagesTemp = resolve(__dirname, '..', 'assets', 'temp')
-  !fs.existsSync(folderImagesTemp)
-    ? fs.mkdirSync(folderImagesTemp)
-    : fs.rmSync(folderImagesTemp, { recursive: true, force: true })
+  if (!fs.existsSync(folderImagesTemp)) {
+    fs.mkdirSync(folderImagesTemp)
+  } else {
+    fs.rmSync(folderImagesTemp, { recursive: true, force: true })
+    fs.mkdirSync(folderImagesTemp)
+  }
 
   const {
     linkPostReddit,
@@ -22,6 +26,14 @@ const startSystem = async () => {
 
   const { pathImageTitle, titlePost } = await getTitlePost(linkPostReddit)
   const answersInThePost = await getAnswersInThePost(linkPostReddit, quantitiesResponse)
+
+  let phares = [titlePost]
+  phares = phares.concat(
+    answersInThePost.map(a => a.answer)
+  )
+
+  console.log(phares)
+  await generateVoiceFiles(phares)
 }
 
 startSystem()
