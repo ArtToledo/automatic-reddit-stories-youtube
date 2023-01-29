@@ -5,6 +5,7 @@ import { resolve } from 'path'
 
 const generateVoiceFiles = async (phrases: string[]): Promise<string[]> => {
   const client = new textToSpeech.TextToSpeechClient()
+  let pathVoiceFiles = []
 
   for (const [index, phrase] of phrases.entries()) {
     const request = {
@@ -25,10 +26,12 @@ const generateVoiceFiles = async (phrases: string[]): Promise<string[]> => {
   
     const writeFilePromise = promisify(writeFile)
     const path = resolve(__dirname, '..', '..', 'assets', 'temp', `audio${index}.mp3`)
+    pathVoiceFiles.push(path)
+
     await writeFilePromise(path, response.audioContent, 'binary')
   }
 
-  return []
+  return pathVoiceFiles
 }
 
 export {

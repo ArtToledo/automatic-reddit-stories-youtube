@@ -32,8 +32,7 @@ const startSystem = async () => {
     answersInThePost.map(a => a.answer)
   )
 
-  console.log(phares)
-  await generateVoiceFiles(phares)
+  const pathVoiceFiles = await generateVoiceFiles(phares)
 }
 
 startSystem()
