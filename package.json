@@ -28,7 +28,10 @@
   },
   "dependencies": {
     "@google-cloud/text-to-speech": "^4.1.0",
+    "child_process": "^1.0.2",
     "dotenv": "^16.0.3",
+    "get-audio-duration": "^3.1.1",
+    "get-video-duration": "^4.1.0",
     "jimp": "^0.16.2",
     "prompt-sync": "^4.2.0",
     "puppeteer": "^19.5.2"
