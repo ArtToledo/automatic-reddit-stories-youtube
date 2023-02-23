@@ -10,6 +10,7 @@ import {
 const getTitlePost = async (linkPost: string): Promise<InformationsTitleInterface> => {
   const browser = await puppeteer.launch()
   const page = await browser.newPage()
+  await page.setViewport({ width: 412, height: 915 })
 
   await page.goto(linkPost, { waitUntil: 'networkidle2' })
   await page.waitForSelector('[data-adclicklocation="title"]')
@@ -30,6 +31,7 @@ const getTitlePost = async (linkPost: string): Promise<InformationsTitleInterfac
 const getAnswersInThePost = async (linkPost: string, quantitiesResponse: number): Promise<AnswerInThePost[]> => {
   const browser = await puppeteer.launch()
   const page = await browser.newPage()
+  await page.setViewport({ width: 412, height: 915 })
 
   await page.goto(linkPost, { waitUntil: 'networkidle2' })
   await page.waitForSelector('._3tw__eCCe7j-epNCKGXUKk')
@@ -40,7 +42,7 @@ const getAnswersInThePost = async (linkPost: string, quantitiesResponse: number)
     let answersFound = []
 
     for (const element of parentElements) {
-      const elementoContemUmaResposta = element.childNodes[0].getInnerHTML() === 'nível 1'
+      const elementoContemUmaResposta = element.childNodes[0].getInnerHTML() === 'level 1'
   
       if (elementoContemUmaResposta) {
         const quantityTagsAnswer = element.childNodes[2].childNodes[0].childNodes.length
@@ -52,11 +54,14 @@ const getAnswersInThePost = async (linkPost: string, quantitiesResponse: number)
             : answer = answer.concat(` ${element.childNodes[2].childNodes[0].childNodes[x].innerHTML}`)
         }
 
-        const {x, y, width, height} = element.getBoundingClientRect()
+        //spacing to the right so the answers are not pasted in the print
+        const spacingX = 4
+        let {x, y, width, height} = element.getBoundingClientRect()
+
         const clipInformations = {
           x,
           y,
-          width,
+          width: width + spacingX,
           height
         }
 
@@ -72,7 +77,8 @@ const getAnswersInThePost = async (linkPost: string, quantitiesResponse: number)
 
   let answersInThePost: AnswerInThePost[] = []
   for (const [index, value] of answersInformations.entries()) {
-    const pathImage = resolve(__dirname, '..', '..', 'assets', 'temp', `image${index + 1}.png`)
+    const nameImage = `image${index + 1}.png`
+    const pathImage = resolve(__dirname, '..', '..', 'assets', 'temp', nameImage)
     const {
       x,
       y,

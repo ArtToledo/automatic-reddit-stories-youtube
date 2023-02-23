@@ -1,8 +1,9 @@
 import { resolve } from 'path'
+import { cmd } from 'src/cmd'
+import { formatterPathToBashFfmpeg } from 'src/utils'
 
 const { getAudioDurationInSeconds } = require('get-audio-duration')
 const { getVideoDurationInSeconds } = require('get-video-duration')
-const { spawn } = require('child_process')
 const process = require('process')
 
 const generateVideo = async (
@@ -12,7 +13,7 @@ const generateVideo = async (
   const pathVideoTemplate = getVideoTemplateRandom()
   const durationVideoTemplate = await getVideoDurationInSecondsPromise(pathVideoTemplate)
   
-  let durationTotalAudiosInSeconds = 0
+  let durationTotalAudiosInSeconds = 1
   for (const pathVoiceFile of pathVoiceFiles) {
     const durationInSeconds = await getAudioDurationInSecondsPromise(pathVoiceFile)
     durationTotalAudiosInSeconds += durationInSeconds
@@ -23,12 +24,11 @@ const generateVideo = async (
     durationVideoTemplate
   )
 
-  const pathVideoTemplateBashType = pathVideoTemplate.replace(/\\/g, '/')
+  const pathVideoTemplateBashType = formatterPathToBashFfmpeg(pathVideoTemplate)
   const pathOutputVideoWithoutImageAndVoice = `${process.env.PATH_OUTPUT_VIDEO}/output.mp4`
   const commandGeneratedVideoBase = `ffmpeg -i ${pathVideoTemplateBashType} -ss ${randomRangeCutVideoTemplateInSeconds.initial} -t ${durationTotalAudiosInSeconds} -c:v copy -c:a copy ${pathOutputVideoWithoutImageAndVoice}`
   
   await cmd('bash', '-c', commandGeneratedVideoBase)
-
   return ''
 }
 
@@ -59,22 +59,6 @@ const generateRandomRange = (durationRange: number, durationTotalVideoTemplate: 
   }
 }
 
-const cmd = async (...command) => {
-  let p = spawn(command[0], command.slice(1));
-  
-  return new Promise((resolveFunc) => {
-    p.stdout.on('data', (x) => {
-      process.stdout.write(x.toString())
-    })
-    p.stderr.on('data', (x) => {
-      process.stderr.write(x.toString())
-    })
-    p.on('exit', (code) => {
-      resolveFunc(code)
-    })
-  })
-}
-
 const getVideoTemplateRandom = () => {
   const numMin = 0
   const numMax = Number(process.env.QUANTITY_VIDEOS_TEMPLATE)
@@ -91,3 +75,11 @@ const getRandomNumber = (min: number, max: number): number => {
 export {
   generateVideo
 }
+
+/* 
+
+ffmpeg -i C:/Users/arthu/Documents/bot-reddit/template.mp4 -i "C:/Users/arthu/Desktop/ProjetosPessoais/automatic-reddit-stories-youtube/assets/temp/image_resized_0.png" -i "C:/Users/arthu/Desktop/ProjetosPessoais/automatic-reddit-stories-youtube/assets/temp/image_resized_1.png" -i "C:/Users/arthu/Desktop/ProjetosPessoais/automatic-reddit-stories-youtube/assets/temp/image_resized_2.png" -filter_complex "[0][1]overlay=(W-w)/2:(H-h)/2:enable='between(t,0,1)'[v1];[v1][2]overlay=(W-w)/2:(H-h)/2:enable='between(t,2,7)'[v2];[v2][3]overlay=(W-w)/2:(H-h)/2:enable='gt(t,8.36)'[v3]" -map "[v3]" -map 0:a:0? C:/Users/arthu/Documents/bot-reddit/out.mp4
+
+//TODO: DA PARA COLOCAR TEMPO POR SEGUNDOS, ENTAO ADICIONAR 10 MILESEGUNDOS ENTRE AUDIO E IMAGEM PARA FICAR ADEQUADO
+
+*/
