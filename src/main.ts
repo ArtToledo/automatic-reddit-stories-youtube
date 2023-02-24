@@ -44,7 +44,7 @@ const startSystem = async () => {
   )
 
   const pathVoiceFiles = await generateVoiceFiles(phares)
-  const pathVideoGenerated = await generateVideo(newPathsImages, pathVoiceFiles)
+  const pathVideoGenerated = await generateVideo(pathVoiceFiles)
 }
 
 startSystem()
