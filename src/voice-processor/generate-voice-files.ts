@@ -18,7 +18,7 @@ const generateVoiceFiles = async (phrases: string[]): Promise<string[]> => {
       audioConfig: { 
         audioEncoding: 'MP3', 
         pitch: -6,
-        speakingRate: 1.4
+        speakingRate: 1.2
       }
     }
 

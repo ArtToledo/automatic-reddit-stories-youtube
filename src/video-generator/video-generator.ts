@@ -115,7 +115,7 @@ const generateVideoCompleted = async (
     
     if (firstImage && !lastImage) {
       commandsAddImageFilterComplex = commandsAddImageFilterComplex.concat(`"[0][1]overlay=(W-w)/2:(H-h)/2:enable='between(t,0.03,${part.durationAudioInSeconds})'[v1];`)
-      audioWithTime.startTimeInSeconds = 0.03
+      audioWithTime.startTimeInSeconds = 0.01
     }
     
     if (!firstImage && !lastImage) {
@@ -125,7 +125,7 @@ const generateVideoCompleted = async (
     
     if (lastImage) {
       commandsAddImageFilterComplex = commandsAddImageFilterComplex.concat(`[v${index}][${index + 1}]overlay=(W-w)/2:(H-h)/2:enable='gt(t,${controlAudios})'[v${index + 1}]"`)
-      audioWithTime.startTimeInSeconds = controlAudios
+      audioWithTime.startTimeInSeconds = controlAudios + 0.5
     }
     
     audiosWithTime.push(audioWithTime)

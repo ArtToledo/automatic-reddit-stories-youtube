@@ -4,6 +4,7 @@ import { resolve } from 'path'
 import { resizeImages } from './image-processor'
 
 import { getInformationsReddit } from './prompt-interaction'
+import { formatSentenceToComplete } from './utils'
 import { generateVideo } from './video-generator'
 import { generateVoiceFiles } from './voice-processor'
 import { 
@@ -36,14 +37,15 @@ const startSystem = async () => {
     answersInThePost.map(answer => answer.pathImage)
   )
 
-  const newPathsImages = await resizeImages(pathsImages)
+  await resizeImages(pathsImages)
 
-  let phares = [titlePost]
-  phares = phares.concat(
+  let phrases = [titlePost]
+  phrases = phrases.concat(
     answersInThePost.map(a => a.answer)
   )
 
-  const pathVoiceFiles = await generateVoiceFiles(phares)
+  const formattedPhrases = formatSentenceToComplete(phrases)
+  const pathVoiceFiles = await generateVoiceFiles(formattedPhrases)
   const pathVideoGenerated = await generateVideo(pathVoiceFiles)
 }
 
